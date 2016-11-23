@@ -21,6 +21,8 @@ public class ItemController {
     private ItemRepository repository;
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     private FilterState filterState = FilterState.ALL;
+    private int currentPageNumber = 0;
+    private int pageSize = 10;
 
     private enum FilterState {
         ALL("all"), SCHEDULED("scheduled"), DONE("done");
@@ -33,11 +35,12 @@ public class ItemController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index() {
-        return "redirect:/items/all";
+        return "redirect:/items/all?size=" + pageSize;
     }
 
     @RequestMapping(value = "/items/all", method = RequestMethod.GET)
     public String ListItems(ModelMap model, Pageable pageable) {
+        currentPageNumber = pageable.getPageNumber();
         filterState = FilterState.ALL;
         model.addAttribute("items", repository.findAll(pageable));
         return "items/list";
@@ -60,7 +63,7 @@ public class ItemController {
     @RequestMapping(value = "items/{id}/delete", method = RequestMethod.GET)
     public ModelAndView delete(@PathVariable int id) {
         repository.delete(id);
-        return new ModelAndView("redirect:/items/" + filterState.getState());
+        return new ModelAndView("redirect:/items/" + filterState.getState() + "?size=" + pageSize + "&page=" + currentPageNumber);
     }
 
     @RequestMapping(value = "items/new", method = RequestMethod.GET)
@@ -72,7 +75,7 @@ public class ItemController {
     public ModelAndView create(@RequestParam("title") String title, @RequestParam("description") String description,
                                @RequestParam("deadline") String deadline, @RequestParam("alert") String alert) throws ParseException {
         repository.save(new Item(title, description, format.parse(deadline), "".equals(alert) ? null : format.parse(alert)));
-        return new ModelAndView("redirect:/items/" + filterState.getState());
+        return new ModelAndView("redirect:/items/" + filterState.getState() + "?size=" + pageSize + "&page=" + currentPageNumber);
     }
 
     @RequestMapping(value = "items/{id}/edit", method = RequestMethod.GET)
@@ -91,7 +94,7 @@ public class ItemController {
         item.setDeadline(format.parse(deadline));
         item.setAlert("".equals(alert) ? null : format.parse(alert));
         repository.save(item);
-        return new ModelAndView("redirect:/items/" + filterState.getState());
+        return new ModelAndView("redirect:/items/" + filterState.getState() + "?size=" + pageSize + "&page=" + currentPageNumber);
     }
 
     @RequestMapping(value = "items/{id}/status", method = RequestMethod.GET)
@@ -99,6 +102,6 @@ public class ItemController {
         Item item = repository.findOne(id);
         item.setState(!item.isState());
         repository.save(item);
-        return new ModelAndView("redirect:/items/" + filterState.getState());
+        return new ModelAndView("redirect:/items/" + filterState.getState() + "?size=" + pageSize + "&page=" + currentPageNumber);
     }
 }
