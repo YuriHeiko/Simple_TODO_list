@@ -1,5 +1,6 @@
 package com.heiko.to_do_list.controller;
 
+import com.heiko.to_do_list.Repository.ItemRepository;
 import com.heiko.to_do_list.model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,7 @@ import java.text.SimpleDateFormat;
 @Controller
 public class ItemController {
     @Autowired
-    private ItemRepository dao;
+    private ItemRepository repository;
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     private FilterState filterState = FilterState.ALL;
 
@@ -42,27 +43,27 @@ public class ItemController {
     @RequestMapping(value = "/items/all", method = RequestMethod.GET)
     public String ListItems(Model model) {
         filterState = FilterState.ALL;
-        model.addAttribute("items", dao.findAll());
+        model.addAttribute("items", repository.findAllItemsSortedById());
         return "items/list";
     }
 
     @RequestMapping(value = "/items/scheduled", method = RequestMethod.GET)
     public String ListScheduledItems(Model model) {
         filterState = FilterState.SCHEDULED;
-        model.addAttribute("items", dao.findByState(false));
+        model.addAttribute("items", repository.findByState(false));
         return "items/list";
     }
 
     @RequestMapping(value = "/items/done", method = RequestMethod.GET)
     public String ListDoneItems(Model model) {
         filterState = FilterState.DONE;
-        model.addAttribute("items", dao.findByState(true));
+        model.addAttribute("items", repository.findByState(true));
         return "items/list";
     }
 
     @RequestMapping(value = "items/{id}/delete", method = RequestMethod.GET)
     public ModelAndView delete(@PathVariable int id) {
-        dao.delete(id);
+        repository.delete(id);
         return new ModelAndView("redirect:/items/" + filterState.getState());
     }
 
@@ -74,13 +75,13 @@ public class ItemController {
     @RequestMapping(value = "items/create", method = RequestMethod.POST)
     public ModelAndView create(@RequestParam("title") String title, @RequestParam("description") String description,
                                @RequestParam("deadline") String deadline, @RequestParam("alert") String alert) throws ParseException {
-        dao.save(new Item(title, description, format.parse(deadline), "".equals(alert) ? null : format.parse(alert)));
+        repository.save(new Item(title, description, format.parse(deadline), "".equals(alert) ? null : format.parse(alert)));
         return new ModelAndView("redirect:/items/" + filterState.getState());
     }
 
     @RequestMapping(value = "items/{id}/edit", method = RequestMethod.GET)
     public String edit(@PathVariable int id, Model model) {
-        Item item = dao.findOne(id);
+        Item item = repository.findOne(id);
         model.addAttribute("item", item);
         return "items/edit";
     }
@@ -88,20 +89,20 @@ public class ItemController {
     @RequestMapping(value = "items/update", method = RequestMethod.POST)
     public ModelAndView update(@RequestParam("item_id") int id, @RequestParam("title") String title, @RequestParam("description") String description,
                                @RequestParam("deadline") String deadline, @RequestParam("alert") String alert) throws ParseException {
-        Item item = dao.findOne(id);
+        Item item = repository.findOne(id);
         item.setTitle(title);
         item.setDescription(description);
         item.setDeadline(format.parse(deadline));
         item.setAlert("".equals(alert) ? null : format.parse(alert));
-        dao.save(item);
+        repository.save(item);
         return new ModelAndView("redirect:/items/" + filterState.getState());
     }
 
     @RequestMapping(value = "items/{id}/status", method = RequestMethod.GET)
     public ModelAndView status(@PathVariable int id) {
-        Item item = dao.findOne(id);
+        Item item = repository.findOne(id);
         item.setState(!item.isState());
-        dao.save(item);
+        repository.save(item);
         return new ModelAndView("redirect:/items/" + filterState.getState());
     }
 

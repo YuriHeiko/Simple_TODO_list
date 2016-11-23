@@ -1,4 +1,4 @@
-package com.heiko.to_do_list.controller;
+package com.heiko.to_do_list.Repository;
 
 import com.heiko.to_do_list.model.Item;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ItemRepository extends PagingAndSortingRepository<Item, Integer> {
     List<Item> findByState(boolean stateVal);
+
+    List<Item> findAllItemsSortedById();
 }
