@@ -19,13 +19,14 @@
                 <td class="message" data-th-text="${item.title}"></td>
                 <td class="message" data-th-text="${item.description}"></td>
                 <td class="message" data-th-text="${#dates.format(item.deadline, 'yyyy-MM-dd HH:mm')}"></td>
-                <td class="message" data-th-text="*{item.alert != null}? *{#dates.format(item.alert, 'yyyy-MM-dd HH:mm')} : 'not set'"></td>
+                <td class="message"
+                    data-th-text="*{item.alert != null}? *{#dates.format(item.alert, 'yyyy-MM-dd HH:mm')} : 'not set'"></td>
                 <td>
                     <a th:href="@{'/items/{id}/status'(id=${item.id})}" class="status">
-                    <div th:switch="${item.state}">
-                             <span th:case="true" class="glyphicon glyphicon-ok"></span>
+                        <div th:switch="${item.state}">
+                            <span th:case="true" class="glyphicon glyphicon-ok"></span>
                             <span th:case="false" class="glyphicon glyphicon-time"></span>
-                    </div>
+                        </div>
                     </a>
                 </td>
 
@@ -44,23 +45,36 @@
             </tbody>
         </table>
 
-        <!--It will be right to make an html table, but I have no time to find out how to do it-->
-        <a class="btn btn-primary" href="/items/new">NEW TASK</a>
-        &nbsp;
-        &nbsp;
-        <a class="btn btn-primary" href="/items/all">ALL TASKS</a>
-        <a class="btn btn-primary" href="/items/scheduled">SCHEDULED</a>
-        <a class="btn btn-primary" href="/items/done">DONE</a>
-<!--
-        &nbsp;
-        &nbsp;
-        <a class="btn btn-primary" href="/5">5</a>
-        <a class="btn btn-primary" href="/10">10</a>
-        <a class="btn btn-primary" href="/20">20</a>
--->
-        &nbsp;
-        &nbsp;
+        <div class="row">
+            <div class="col-sm-6">
+                <nav class="pull-right">
+                    <ul class="pagination" sd:pagination="full">
+                        <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+                        <li class="disabled"><a href="#" aria-label="Previous"><span
+                                aria-hidden="true">&laquo;</span></a></li>
+                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!--
+                <nav>
+                    <ul class="pagination" sd:pagination="aligned-links">
+                        &lt;!&ndash; Pagination created by SpringDataDialect, this content is just for mockup &ndash;&gt;
+                        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                </nav>
+        -->
 
+        <div>
+            <a class="btn btn-primary" href="/items/new">NEW TASK</a>
+            &nbsp;
+            &nbsp;
+            <a class="btn btn-primary" href="/items/all">ALL TASKS</a>
+            <a class="btn btn-primary" href="/items/scheduled">SCHEDULED</a>
+            <a class="btn btn-primary" href="/items/done">DONE</a>
+        </div>
 
     </div>
 </div>

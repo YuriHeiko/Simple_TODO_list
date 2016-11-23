@@ -3,8 +3,9 @@ package com.heiko.to_do_list.controller;
 import com.heiko.to_do_list.Repository.ItemRepository;
 import com.heiko.to_do_list.model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,13 +27,8 @@ public class ItemController {
 
         private String state;
 
-        public String getState() {
-            return state;
-        }
-
-        FilterState(String state) {
-            this.state = state;
-        }
+        public String getState() {return state;}
+        FilterState(String state) {this.state = state;}
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -41,23 +37,23 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/items/all", method = RequestMethod.GET)
-    public String ListItems(Model model) {
+    public String ListItems(ModelMap model, Pageable pageable) {
         filterState = FilterState.ALL;
-        model.addAttribute("items", repository.findAllItemsSortedById());
+        model.addAttribute("items", repository.findAll(pageable));
         return "items/list";
     }
 
     @RequestMapping(value = "/items/scheduled", method = RequestMethod.GET)
-    public String ListScheduledItems(Model model) {
+    public String ListScheduledItems(ModelMap model, Pageable pageable) {
         filterState = FilterState.SCHEDULED;
-        model.addAttribute("items", repository.findByState(false));
+        model.addAttribute("items", repository.findByState(false, pageable));
         return "items/list";
     }
 
     @RequestMapping(value = "/items/done", method = RequestMethod.GET)
-    public String ListDoneItems(Model model) {
+    public String ListDoneItems(ModelMap model, Pageable pageable) {
         filterState = FilterState.DONE;
-        model.addAttribute("items", repository.findByState(true));
+        model.addAttribute("items", repository.findByState(true, pageable));
         return "items/list";
     }
 
@@ -80,7 +76,7 @@ public class ItemController {
     }
 
     @RequestMapping(value = "items/{id}/edit", method = RequestMethod.GET)
-    public String edit(@PathVariable int id, Model model) {
+    public String edit(@PathVariable int id, ModelMap model) {
         Item item = repository.findOne(id);
         model.addAttribute("item", item);
         return "items/edit";
@@ -105,5 +101,4 @@ public class ItemController {
         repository.save(item);
         return new ModelAndView("redirect:/items/" + filterState.getState());
     }
-
 }
