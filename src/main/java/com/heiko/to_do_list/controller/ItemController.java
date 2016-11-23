@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 @Controller
 public class ItemController {
     @Autowired
-    private ItemDAO dao;
+    private ItemRepository dao;
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
