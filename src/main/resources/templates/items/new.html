@@ -1,0 +1,30 @@
+<html layout:decorator="layout">
+<div layout:fragment="content">
+    <h3>Add a TODO task</h3>
+    <form method="post" name="comment_form" id="comment_form" action="/items/create" role="form">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <textarea rows="1" class="form-control" id="title" name="title"/>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea rows="1" class="form-control" id="description" name="description"/>
+        </div>
+        <div class="form-group">
+            <label for="deadline">Deadline [YYYY-MM-DD HH:MM]</label>
+            <textarea rows="1" class="form-control" id="deadline" name="deadline"/>
+        </div>
+        <div class="form-group">
+            <label for="alert">Alert [YYYY-MM-DD HH:MM]</label>
+            <textarea rows="1" class="form-control" id="alert" name="alert"/>
+        </div>
+<!--
+        <div class="form-group">
+            <label for="state">State</label>
+            <textarea rows="1" class="form-control" id="state" name="state"/>
+        </div>
+-->
+        <button type="submit" id="submit" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Submit</button>
+    </form>
+</div>
+</html>

@@ -1,0 +1,63 @@
+<html layout:decorator="layout">
+
+<div layout:fragment="content">
+    <div class="starter-template">
+        <table class="table table-hover" id="items_list">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th>Alert</th>
+                <th>State</th>
+                <th>Remove</th>
+                <th>Edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-th-each="item : ${items}">
+                <td class="message" data-th-text="${item.title}"></td>
+                <td class="message" data-th-text="${item.description}"></td>
+                <td class="message" data-th-text="${#dates.format(item.deadline, 'yyyy-MM-dd HH:mm')}"></td>
+                <td class="message" data-th-text="*{item.alert != null}? *{#dates.format(item.alert, 'yyyy-MM-dd HH:mm')} : 'not set'"></td>
+                <!--<td class="message" data-th-text="${item.state}">-->
+                <td>
+                    <a th:href="@{'/items/{id}/status'(id=${item.id})}" class="status">
+                    <div th:switch="${item.state}">
+                             <span th:case="true" class="glyphicon glyphicon-ok"></span>
+                            <span th:case="false" class="glyphicon glyphicon-time"></span>
+                    </div>
+                    </a>
+                </td>
+
+                <td>
+                    <a th:href="@{'/items/{id}/delete'(id=${item.id})}" class="delete">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </td>
+
+                <td>
+                    <a th:href="@{'/items/{id}/edit'(id=${item.id})}" class="edit">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+<!--        <a class="btn btn-primary" href="/items/new"><span class="glyphicon glyphicon-plus"></span> NEW TASK</a>-->
+        <a class="btn btn-primary" href="/items/new">NEW TASK</a>
+        &nbsp;
+        &nbsp;
+        <a class="btn btn-primary" href="/">ALL TASKS</a>
+        <a class="btn btn-primary" href="/items/scheduled">SCHEDULED</a>
+        <a class="btn btn-primary" href="/items/done">DONE</a>
+<!--
+        <a href="#" class="btn btn-info btn-lg">
+            <span class="glyphicon glyphicon-filter"></span> DONE TASKS
+        </a>
+-->
+
+    </div>
+</div>
+</html>
