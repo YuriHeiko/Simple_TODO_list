@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ItemRepository extends PagingAndSortingRepository<Item, Integer> {
-    List<Item> findByStatus(boolean stateVal);
+    List<Item> findByState(boolean stateVal);
 }

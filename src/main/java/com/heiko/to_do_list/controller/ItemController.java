@@ -18,29 +18,52 @@ public class ItemController {
     @Autowired
     private ItemRepository dao;
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private FilterState filterState = FilterState.ALL;
+
+    private enum FilterState {
+        ALL("all"), SCHEDULED("scheduled"), DONE("done");
+
+        private String state;
+
+        public String getState() {
+            return state;
+        }
+
+        FilterState(String state) {
+            this.state = state;
+        }
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String index() {
+        return "redirect:/items/all";
+    }
+
+    @RequestMapping(value = "/items/all", method = RequestMethod.GET)
     public String ListItems(Model model) {
+        filterState = FilterState.ALL;
         model.addAttribute("items", dao.findAll());
         return "items/list";
     }
 
-/*    @RequestMapping(value = "/items/scheduled", method = RequestMethod.GET)
+    @RequestMapping(value = "/items/scheduled", method = RequestMethod.GET)
     public String ListScheduledItems(Model model) {
-        model.addAttribute("items", dao.findByStatus(true));
+        filterState = FilterState.SCHEDULED;
+        model.addAttribute("items", dao.findByState(false));
         return "items/list";
-    }*/
+    }
 
     @RequestMapping(value = "/items/done", method = RequestMethod.GET)
     public String ListDoneItems(Model model) {
-        model.addAttribute("items", dao.findAll());
+        filterState = FilterState.DONE;
+        model.addAttribute("items", dao.findByState(true));
         return "items/list";
     }
 
     @RequestMapping(value = "items/{id}/delete", method = RequestMethod.GET)
     public ModelAndView delete(@PathVariable int id) {
         dao.delete(id);
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/items/" + filterState.getState());
     }
 
     @RequestMapping(value = "items/new", method = RequestMethod.GET)
@@ -52,7 +75,7 @@ public class ItemController {
     public ModelAndView create(@RequestParam("title") String title, @RequestParam("description") String description,
                                @RequestParam("deadline") String deadline, @RequestParam("alert") String alert) throws ParseException {
         dao.save(new Item(title, description, format.parse(deadline), "".equals(alert) ? null : format.parse(alert)));
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/items/" + filterState.getState());
     }
 
     @RequestMapping(value = "items/{id}/edit", method = RequestMethod.GET)
@@ -71,7 +94,7 @@ public class ItemController {
         item.setDeadline(format.parse(deadline));
         item.setAlert("".equals(alert) ? null : format.parse(alert));
         dao.save(item);
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/items/" + filterState.getState());
     }
 
     @RequestMapping(value = "items/{id}/status", method = RequestMethod.GET)
@@ -79,7 +102,7 @@ public class ItemController {
         Item item = dao.findOne(id);
         item.setState(!item.isState());
         dao.save(item);
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/items/" + filterState.getState());
     }
 
 }
