@@ -49,7 +49,7 @@
             <div class="row-height">
                 <div class="col-xs-2 col-height col-middle">
                     <div class="inside">
-                        <div class="content"><a class="btn btn-primary" href="/items/new">NEW TASK</a></div>
+                        <div class="content"><a class="btn btn-primary" href="/items/new"><span class="glyphicon glyphicon-plus"></span> NEW TASK</a></div>
                     </div>
                 </div>
                 <div class="col-xs-2 col-height col-middle">
@@ -65,16 +65,15 @@
                 </div>
                 <div class="col-xs-2 col-height col-middle">
                     <div class="inside">
-                        <div class="content">
-                            <a class="btn btn-primary" href="/items/all">ALL TASKS</a>
-                            <a class="btn btn-primary" href="/items/scheduled">SCHEDULED</a>
-                            <a class="btn btn-primary" href="/items/done">DONE</a>
+                        <div class="content" id="size">
+                            <a class="btn btn-primary" th:href="@{'/items/all?size={s}'(s=${size})}"><span class="glyphicon glyphicon-asterisk"></span> ALL TASKS</a>
+                            <a class="btn btn-primary" th:href="@{'/items/scheduled?size={s}'(s=${size})}"><span class="glyphicon glyphicon-time"></span> SCHEDULED</a>
+                            <a class="btn btn-primary" th:href="@{'/items/done?size={s}'(s=${size})}"><span class="glyphicon glyphicon-ok"></span> DONE</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 </html>

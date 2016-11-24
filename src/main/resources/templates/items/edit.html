@@ -18,10 +18,6 @@
             <label for="alert">Alert [YYYY-MM-DD HH:MM]</label>
             <textarea rows="1" class="form-control" id="alert" name="alert" th:text="*{item.alert != null}? *{#dates.format(item.alert, 'yyyy-MM-dd HH:mm')} : ''"/>
         </div>
-<!--        <div class="form-group">
-            <label for="state">State</label>
-            <textarea rows="1" class="form-control" id="state" name="state" th:text="${item.state}"/>
-        </div>-->
         <input type="hidden" id="item_id" rows="5" class="form-control" name="item_id" th:value="${item.id}"/>
         <button type="submit" id="submit" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Submit</button>
     </form>
