@@ -42,11 +42,19 @@
         <!--SUBMIT-->
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" id="submit" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span>
+                <button type="submit" id="submit" class="btn btn-primary" onclick="return check('alert');"><span class="glyphicon glyphicon-edit"></span>
                     Submit
                 </button>
             </div>
         </div>
+
+        <!--Error message-->
+        <div class="form-group">
+            <div class="alert alert-danger hidden text-center" id="error-alert">
+                <strong>Error!</strong> Some input fields can't be empty!
+            </div>
+        </div>
+
     </form>
 
     <script>
