@@ -35,9 +35,7 @@
                 <div class="input-group">
                     <input id="alert" name="alert" type="text" class="form-control"
                            th:value="*{item.alert != null}? *{#dates.format(item.alert, 'yyyy-MM-dd HH:mm')} : ''"/>
-                    <span class="input-group-addon">
-                    <a href="#" onclick="return clearInput()">X</a>
-                    </span>
+                    <a href="#" class="btn btn-default btn-xs input-group-addon" onclick="return clearInput('alert')"><span class="glyphicon glyphicon-remove"></span></a>
                 </div>
             </div>
         </div>

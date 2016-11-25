@@ -10,15 +10,10 @@ function DateTimePicker_init(name) {
             format: 'YYYY-MM-DD HH:mm'
         }
     });
-
-    if (document.URL.indexOf("new") == 0) {
-        clearInput('alert');
-    }
 }
 
 function check() {
-
-    if ($('#title').value == '' || $('#deadline').value == '') {
+    if ($('#title').val() == '' || $('#deadline').val() == '') {
         $('#error-alert').removeClass('hidden');
         $('#title').addClass('alert alert-danger');
         $('#deadline').addClass('alert alert-danger');
@@ -27,6 +22,6 @@ function check() {
 }
 
 function clearInput(name) {
-    document.getElementsByName('alert')[0].value = '';
+    $('#' + name).val('');
     return false;
 }
