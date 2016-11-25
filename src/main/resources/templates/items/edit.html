@@ -1,84 +1,96 @@
 <html layout:decorator="layout">
 <div layout:fragment="content">
 
-    <!-- Модальное окно -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Заголовок модального окна -->
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">×</button>
-                    <h4 class="modal-title" id="myModalLabel">Регистрация</h4>
-                </div>
-                <!-- Основная часть модального окна, содержащая форму для регистрации -->
-                <div class="modal-body">
+    <h2>Edit a TODO task:</h2>
+    <!--<form method="post" name="comment_form" id="comment_form" action="/items/update" role="form">-->
+    <form class="form-horizontal" method="post" name="comment_form" id="comment_form" action="/items/update"
+          role="form">
 
-                    <h3>Edit a TODO task</h3>
-                    <form method="post" name="comment_form" id="comment_form" action="/items/update" role="form">
-                        <div class="form-group">
-                            <label for="title">Title</label>
-                            <textarea rows="1" class="form-control" id="title" name="title" th:text="${item.title}"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea rows="1" class="form-control" id="description" name="description"
-                                      th:text="${item.description}"/>
-                        </div>
+        <!--TITLE-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="title">Title: </label>
+            <div class="col-sm-10">
+                <input type="title" class="form-control" id="title" name="title" th:value="${item.title}"/>
+            </div>
+        </div>
 
-                        <div class="form-group">
-                            <div class="row">
-                                <div class='col-sm-6'>
-                                    <label for="deadline">Deadline:</label>
-                                    <div class='input-group date' id='datetimepicker1'>
-                                        <input id="deadline" name="deadline" type='text' class="form-control"
-                                               th:value="*{item.alert != null}? *{#dates.format(item.deadline, 'yyyy-MM-dd HH:mm')} : ''"/>
-                                    </div>
-                                </div>
-                                <div class='col-sm-6'>
-                                    <label for="alert">Alert:</label>
-                                    <div class='input-group date' id='datetimepicker2'>
-                                        <input id="alert" name="alert" type='text' class="form-control"
-                                               th:value="*{item.alert != null}? *{#dates.format(item.alert, 'yyyy-MM-dd HH:mm')} : ''"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <!--DESCRIPTION-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="description">Description : </label>
+            <div class="col-sm-10">
+                <textarea rows="3" class="form-control" id="description" name="description"
+                          th:text="${item.description}"/>
+            </div>
+        </div>
 
-                        <script type="text/javascript">
-                            $('input[name="deadline"]').daterangepicker({
-                                singleDatePicker: true,
-                                timePicker24Hour: true,
-                                timePicker: true,
-                                locale: {
-                                    format: 'YYYY-MM-DD hh:mm'
-                                }
-                            });
-                            $('input[name="alert"]').daterangepicker({
-                                singleDatePicker: true,
-                                timePicker24Hour: true,
-                                timePicker: true,
-                                locale: {
-                                    format: 'YYYY-MM-DD hh:mm'
-                                }
-                            });
-                        </script>
-                        <!--</div>-->
-                        <!--        <div class="form-group">
-                                    <label for="alert">Alert [YYYY-MM-DD HH:MM]</label>
-                                    <textarea rows="1" class="form-control" id="alert" name="alert" th:text="*{item.alert != null}? *{#dates.format(item.alert, 'yyyy-MM-dd HH:mm')} : ''"/>
-                                </div>-->
-                        <input type="hidden" id="item_id" rows="5" class="form-control" name="item_id"
-                               th:value="${item.id}"/>
-                        <button type="submit" id="submit" class="btn btn-primary"><span
-                                class="glyphicon glyphicon-edit"></span>
-                            Submit
-                        </button>
-                    </form>
-
-
+        <!--DEADLINE & ALERT-->
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="deadline">Deadline:</label>
+            <div class="col-sm-10" id='datetimepicker1'>
+                <input id="deadline" name="deadline" type='text' class="form-control"
+                       th:value="*{item.alert != null}? *{#dates.format(item.deadline, 'yyyy-MM-dd HH:mm')} : ''"/>
+            </div>
+            <label class="control-label col-sm-2" for="alert">Alert:</label>
+            <div class="col-sm-10" id='datetimepicker2'>
+                <div class="input-group">
+                    <input id="alert" name="alert" type="text" class="form-control"
+                           th:value="*{item.alert != null}? *{#dates.format(item.alert, 'yyyy-MM-dd HH:mm')} : ''"/>
+                    <span class="input-group-addon">
+                    <a href="#" onclick="document.getElementsByName('alert')[0].value = ''; return false;">X</a>
+                    </span>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!--SUBMIT-->
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" id="item_id" rows="5" class="form-control" name="item_id"
+                       th:value="${item.id}"/>
+                <button type="submit" id="submit" class="btn btn-primary" onclick="return check();"><span
+                        class="glyphicon glyphicon-edit"></span>
+                    Submit
+                </button>
+            </div>
+        </div>
+
+        <!--Error message-->
+        <div class="form-group">
+            <div class="alert alert-danger hidden" id="error-alert">
+                <strong>Error!</strong> Some input fields can't be empty!
+            </div>
+        </div>
+
+    </form>
+
+    <script>
+        $('input[name="deadline"]').daterangepicker({
+            singleDatePicker: true,
+            timePicker24Hour: true,
+            timePicker: true,
+            locale: {
+                format: 'YYYY-MM-DD hh:mm'
+            }
+        });
+
+        $('input[name="alert"]').daterangepicker({
+            singleDatePicker: true,
+            timePicker24Hour: true,
+            timePicker: true,
+            locale: {
+                format: 'YYYY-MM-DD hh:mm'
+            }
+        });
+
+        function check() {
+            if (document.getElementsByName('title')[0].value == '' || document.getElementsByName('deadline')[0].value == '') {
+                $('#error-alert').removeClass('hidden');
+                $('#title').addClass('alert alert-danger');
+                $('#deadline').addClass('alert alert-danger');
+                return false;
+            }
+        };
+    </script>
+
 </div>
 </html>

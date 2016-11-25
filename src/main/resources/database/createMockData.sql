@@ -8,5 +8,6 @@ INSERT INTO to_do_list.tasks (title, description, deadline, alert) VALUES ('Find
 INSERT INTO to_do_list.tasks (title, description, deadline, alert) VALUES ('Date with a cute nurse', 'Life isn\'t always a piece of shit', '2016/12/25 11:00', '2016-12-25 22:00:00');
 INSERT INTO to_do_list.tasks (title, description, deadline, alert) VALUES ('Throw a party!', 'Drugs, sex, rock&roll', '2016/12/25 22:30', '2016-12-26 05:00:00');
 INSERT INTO to_do_list.tasks (title, description, deadline, alert) VALUES ('Wake up! MOTHERFUCKER!', 'You must wake up!', '2016/12/26 07:00', '2016-12-26 06:55:00');
+INSERT INTO to_do_list.tasks (title, description, deadline, alert) VALUES ('WAKE UP!!!', 'Despite hangover you have to find a new job!', '2016/12/26 07:05', '2016-12-26 07:00:00');
 
 # DELETE FROM to_do_list.tasks;

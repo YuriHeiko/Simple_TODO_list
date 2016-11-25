@@ -47,33 +47,74 @@
 
         <div class="row">
             <div class="row-height">
-                <div class="col-xs-2 col-height col-middle">
+
+                <!--Page size picker-->
+                <div class="col-xs-1 col-height col-middle">
                     <div class="inside">
-                        <div class="content"><a class="btn btn-primary" href="/items/new"><span class="glyphicon glyphicon-plus"></span> NEW TASK</a></div>
+                        <div class="container">
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle btn-ьв" id="menu1" type="button"
+                                        data-toggle="dropdown">Pages <span class="badge" th:text="${size}"></span>
+                                    <span class="caret"></span></button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/setPageSize=5">5</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/setPageSize=10">10</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/setPageSize=15">15</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/setPageSize=20">20</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-xs-2 col-height col-middle">
+
+                <!--Paginator-->
+                <div class="col-xs-3 col-height">
                     <div class="inside">
                         <div class="content">
-                            <ul class="pagination" sd:pagination="full">
+                            <ul class="pagination" sd:pagination="full" id="paginator">
                                 <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
-                                <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                                <li class="disabled"><a href="#" aria-label="Previous"><span
+                                        aria-hidden="true">&laquo;</span></a></li>
                                 <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-2 col-height col-middle">
+
+                <!--New task button-->
+                <div class="col-xs-1 col-height col-middle">
+                    <div class="inside">
+                        <div class="content"><a class="btn btn-primary btn-ьв" href="/items/new"><span
+                                class="glyphicon glyphicon-plus"></span> NEW TASK</a></div>
+                    </div>
+                </div>
+
+                <!--Filter buttons-->
+                <div class="col-xs-3 col-height col-middle">
                     <div class="inside">
                         <div class="content" id="size">
-                            <a class="btn btn-primary" th:href="@{'/items/all?size={s}'(s=${size})}"><span class="glyphicon glyphicon-asterisk"></span> ALL TASKS</a>
-                            <a class="btn btn-primary" th:href="@{'/items/scheduled?size={s}'(s=${size})}"><span class="glyphicon glyphicon-time"></span> SCHEDULED</a>
-                            <a class="btn btn-primary" th:href="@{'/items/done?size={s}'(s=${size})}"><span class="glyphicon glyphicon-ok"></span> DONE</a>
+                            <div class="btn-group">
+                                <a class="btn btn-primary btn-ьв" th:href="@{'/items/all?size={s}'(s=${size})}"><span
+                                        class="glyphicon glyphicon-asterisk"></span> ALL TASKS</a>
+                                <a class="btn btn-primary btn-ьв" th:href="@{'/items/scheduled?size={s}'(s=${size})}"><span
+                                        class="glyphicon glyphicon-time"></span> SCHEDULED</a>
+                                <a class="btn btn-primary btn-ьв" th:href="@{'/items/done?size={s}'(s=${size})}"><span
+                                        class="glyphicon glyphicon-ok"></span> DONE</a>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function () {
+            $(".dropdown-toggle").dropdown();
+        });
+    </script>
+
 </div>
+
 </html>

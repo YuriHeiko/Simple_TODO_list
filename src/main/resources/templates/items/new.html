@@ -1,24 +1,73 @@
 <html layout:decorator="layout">
 <div layout:fragment="content">
-    <h3>Add a TODO task</h3>
-    <form method="post" name="comment_form" id="comment_form" action="/items/create" role="form">
+
+    <h2>Add a TODO task:</h2>
+    <!--<form method="post" name="comment_form" id="comment_form" action="/items/update" role="form">-->
+    <form class="form-horizontal" method="post" name="comment_form" id="comment_form" action="/items/create"
+          role="form">
+
+        <!--TITLE-->
         <div class="form-group">
-            <label for="title">Title</label>
-            <textarea rows="1" class="form-control" id="title" name="title"/>
+            <label class="control-label col-sm-2" for="title">Title: </label>
+            <div class="col-sm-10">
+                <input type="title" class="form-control" id="title" name="title"/>
+            </div>
         </div>
+
+        <!--DESCRIPTION-->
         <div class="form-group">
-            <label for="description">Description</label>
-            <textarea rows="1" class="form-control" id="description" name="description"/>
+            <label class="control-label col-sm-2" for="description">Description: </label>
+            <div class="col-sm-10">
+                <textarea rows="3" class="form-control" id="description" name="description"/>
+            </div>
         </div>
+
+        <!--DEADLINE & ALERT-->
         <div class="form-group">
-            <label for="deadline">Deadline [YYYY-MM-DD HH:MM]</label>
-            <textarea rows="1" class="form-control" id="deadline" name="deadline"/>
+            <label class="control-label col-sm-2" for="deadline">Deadline:</label>
+            <div class="col-sm-10" id='datetimepicker1'>
+                <input id="deadline" name="deadline" type='text' class="form-control"/>
+            </div>
+            <label class="control-label col-sm-2" for="alert">Alert:</label>
+            <div class="col-sm-10" id='datetimepicker2'>
+                <div class="input-group">
+                    <input id="alert" name="alert" type="text" class="form-control"/>
+                    <span class="input-group-addon">
+                    <a href="#" onclick="document.getElementsByName('alert')[0].value = ''; return false;">X</a>
+                    </span>
+                </div>
+            </div>
         </div>
+
+        <!--SUBMIT-->
         <div class="form-group">
-            <label for="alert">Alert [YYYY-MM-DD HH:MM]</label>
-            <textarea rows="1" class="form-control" id="alert" name="alert"/>
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" id="submit" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span>
+                    Submit
+                </button>
+            </div>
         </div>
-        <button type="submit" id="submit" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Submit</button>
     </form>
+
+    <script type="text/javascript">
+        $('input[name="deadline"]').daterangepicker({
+            singleDatePicker: true,
+            timePicker24Hour: true,
+            timePicker: true,
+            autoUpdateInput: true,
+            locale: {
+                format: 'YYYY-MM-DD hh:mm',
+            }
+        });
+        $('input[name="alert"]').daterangepicker({
+            singleDatePicker: true,
+            timePicker24Hour: true,
+            timePicker: true,
+            autoUpdateInput: true,
+            locale: {
+                format: 'YYYY-MM-DD hh:mm',
+            }
+        });
+    </script>
 </div>
 </html>

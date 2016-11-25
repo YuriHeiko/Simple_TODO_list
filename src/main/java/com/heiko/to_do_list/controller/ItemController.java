@@ -38,6 +38,15 @@ public class ItemController {
         return "redirect:/items/all?size=" + pageSize;
     }
 
+    @RequestMapping(value = "/setPageSize={size}", method = RequestMethod.GET)
+    public String setPageSize(@PathVariable int size) {
+        if (size > 0 ) {
+            pageSize = size;
+        }
+
+        return "redirect:/items/" + filterState.getState() + "?size=" + pageSize;
+    }
+
     // TODO Add page size picking
     // TODO Change navigation system, I can create only one method and get a filter parameter from address string
 
