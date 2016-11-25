@@ -23,7 +23,7 @@ public class ItemController {
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     private FilterState filterState = FilterState.ALL;
     private int currentPageNumber = 0;
-    private int pageSize = 10;
+    private int pageSize = 10; // Default page size
 
     private enum FilterState {
         ALL("all"), SCHEDULED("scheduled"), DONE("done");
@@ -47,8 +47,6 @@ public class ItemController {
 
         return "redirect:/items/all?size=" + pageSize;
     }
-
-    // TODO Change navigation system, I can create only one method and get a filter parameter from address string
 
     @RequestMapping(value = "/items/{filter}", method = RequestMethod.GET)
     public String ListItems(ModelMap model, Pageable pageable, @PathVariable String filter) {
