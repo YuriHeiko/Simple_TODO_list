@@ -3,3 +3,8 @@
 Не сделал обработку исключений  
 
 http://46.98.96.67:8080/ - тестовая база
+ 
+TODO:  
+  - Exception  
+  - Edit&Add modal forms
+  - Column sorting
