@@ -1,20 +1,24 @@
-function page_load() {
-    DateTimePicker_init('deadline');
-    DateTimePicker_init('alert');
-}
+$(document).ready(DateTimePicker_init('alert'));
+$(document).ready(DateTimePicker_init('deadline'));
 
 function DateTimePicker_init(name) {
-    document.getElementsByName(name)[0].daterangepicker({
+    $('#'+name).daterangepicker({
         singleDatePicker: true,
         timePicker24Hour: true,
         timePicker: true,
         locale: {
             format: 'YYYY-MM-DD HH:mm'
         }
-    })
+    });
+
+    if (document.URL.indexOf("new") == 0) {
+        clearInput('alert');
+    }
 }
+
 function check() {
-    if (document.getElementsByName('title')[0].value == '' || document.getElementsByName('deadline')[0].value == '') {
+
+    if ($('#title').value == '' || $('#deadline').value == '') {
         $('#error-alert').removeClass('hidden');
         $('#title').addClass('alert alert-danger');
         $('#deadline').addClass('alert alert-danger');
