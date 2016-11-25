@@ -1,8 +1,8 @@
-CREATE TABLE to_do_list.tasks (
+CREATE TABLE tasks (
   id INT NOT NULL AUTO_INCREMENT,
   title VARCHAR(100) NOT NULL,
   description VARCHAR(255),
   deadline DATETIME NOT NULL,
   alert DATETIME,
-  state BIT(1),
+  state BIT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (id));

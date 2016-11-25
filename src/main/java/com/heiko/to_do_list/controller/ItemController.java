@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 @Controller
+//@RequestMapping("/items")
 public class ItemController {
     @Autowired
     private ItemRepository repository;
