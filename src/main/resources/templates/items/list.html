@@ -99,12 +99,11 @@
                     <div class="inside">
                         <div class="content" id="size">
                             <div class="btn-group">
-
-                                <a class="btn btn-primary btn-sm" th:href="@{'/items/all?size={s}'(s=${size})}"><span
+                                <a th:class="@{'btn btn-sm {state}'(state=${filter == 'all' ? 'btn-success' : 'btn-primary'})}" th:href="@{'/items/all?size={s}'(s=${size})}"><span
                                         class="glyphicon glyphicon-asterisk"></span> ALL TASKS</a>
-                                <a class="btn btn-primary btn-sm" th:href="@{'/items/scheduled?size={s}'(s=${size})}"><span
+                                <a th:class="@{'btn btn-sm {state}'(state=${filter == 'scheduled' ? 'btn-success' : 'btn-primary'})}" th:href="@{'/items/scheduled?size={s}'(s=${size})}"><span
                                         class="glyphicon glyphicon-time"></span> SCHEDULED</a>
-                                <a class="btn btn-primary btn-sm" th:href="@{'/items/done?size={s}'(s=${size})}"><span
+                                <a th:class="@{'btn btn-sm {state}'(state=${filter == 'done' ? 'btn-success' : 'btn-primary'})}" th:href="@{'/items/done?size={s}'(s=${size})}"><span
                                         class="glyphicon glyphicon-ok"></span> DONE</a>
                             </div>
                         </div>

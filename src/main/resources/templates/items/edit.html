@@ -36,7 +36,7 @@
                     <input id="alert" name="alert" type="text" class="form-control"
                            th:value="*{item.alert != null}? *{#dates.format(item.alert, 'yyyy-MM-dd HH:mm')} : ''"/>
                     <span class="input-group-addon">
-                    <a href="#" onclick="document.getElementsByName('alert')[0].value = ''; return false;">X</a>
+                    <a href="#" onclick="return clearInput()">X</a>
                     </span>
                 </div>
             </div>
@@ -47,7 +47,7 @@
             <div class="col-sm-offset-2 col-sm-10">
                 <input type="hidden" id="item_id" rows="5" class="form-control" name="item_id"
                        th:value="${item.id}"/>
-                <button type="submit" id="submit" class="btn btn-primary" onclick="return check();"><span
+                <button type="submit" id="submit" class="btn btn-primary" onclick="return check('alert');"><span
                         class="glyphicon glyphicon-edit"></span>
                     Submit
                 </button>
@@ -56,12 +56,13 @@
 
         <!--Error message-->
         <div class="form-group">
-            <div class="alert alert-danger hidden" id="error-alert">
+            <div class="alert alert-danger hidden text-center" id="error-alert">
                 <strong>Error!</strong> Some input fields can't be empty!
             </div>
         </div>
 
     </form>
+
 
     <script>
         $('input[name="deadline"]').daterangepicker({
@@ -72,7 +73,6 @@
                 format: 'YYYY-MM-DD HH:mm'
             }
         });
-
         $('input[name="alert"]').daterangepicker({
             singleDatePicker: true,
             timePicker24Hour: true,
@@ -81,7 +81,6 @@
                 format: 'YYYY-MM-DD HH:mm'
             }
         });
-
         function check() {
             if (document.getElementsByName('title')[0].value == '' || document.getElementsByName('deadline')[0].value == '') {
                 $('#error-alert').removeClass('hidden');
@@ -89,8 +88,15 @@
                 $('#deadline').addClass('alert alert-danger');
                 return false;
             }
-        };
+        }
+
+        function clearInput(name) {
+            document.getElementsByName('alert')[0].value = '';
+            return false;
+        }
     </script>
+
+    <!--<script src="/js/DTpicker_initialize_and_validation.js"></script>-->
 
 </div>
 </html>

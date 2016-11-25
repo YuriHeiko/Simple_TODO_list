@@ -44,36 +44,22 @@ public class ItemController {
             pageSize = size;
         }
 
-        return "redirect:/items/" + filterState.getState() + "?size=" + pageSize;
+        return "redirect:/items/all?size=" + pageSize;
     }
 
-    // TODO Add page size picking
     // TODO Change navigation system, I can create only one method and get a filter parameter from address string
 
-    @RequestMapping(value = "/items/all", method = RequestMethod.GET)
-    public String ListItems(ModelMap model, Pageable pageable) {
+    @RequestMapping(value = "/items/{filter}", method = RequestMethod.GET)
+    public String ListItems(ModelMap model, Pageable pageable, @PathVariable String filter) {
         currentPageNumber = pageable.getPageNumber();
-        filterState = FilterState.ALL;
-        model.addAttribute("items", repository.findAll(pageable));
+        filterState = FilterState.valueOf(filter.toUpperCase());
+        if (filterState == FilterState.ALL) {
+            model.addAttribute("items", repository.findAll(pageable));
+        } else {
+            model.addAttribute("items", repository.findByState((filterState == FilterState.DONE), pageable));
+        }
         model.addAttribute("size", pageSize);
-        return "items/list";
-    }
-
-    @RequestMapping(value = "/items/scheduled", method = RequestMethod.GET)
-    public String ListScheduledItems(ModelMap model, Pageable pageable) {
-        currentPageNumber = pageable.getPageNumber();
-        filterState = FilterState.SCHEDULED;
-        model.addAttribute("items", repository.findByState(false, pageable));
-        model.addAttribute("size", pageSize);
-        return "items/list";
-    }
-
-    @RequestMapping(value = "/items/done", method = RequestMethod.GET)
-    public String ListDoneItems(ModelMap model, Pageable pageable) {
-        currentPageNumber = pageable.getPageNumber();
-        filterState = FilterState.DONE;
-        model.addAttribute("items", repository.findByState(true, pageable));
-        model.addAttribute("size", pageSize);
+        model.addAttribute("filter", filterState.getState());
         return "items/list";
     }
 
@@ -88,7 +74,6 @@ public class ItemController {
         return "items/new";
     }
 
-    // TODO Add field checking
     // TODO Try to make a modal forms for edit&add item
 
     @RequestMapping(value = "items/create", method = RequestMethod.POST)
