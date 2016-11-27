@@ -15,14 +15,20 @@
             </tr>
             </thead>
             <tbody>
+            <!--Data table-->
             <tr data-th-each="item : ${items}">
+
+                <!--Data-->
                 <td class="message" data-th-text="${item.title}"></td>
                 <td class="message" data-th-text="${item.description}"></td>
                 <td class="message" data-th-text="${#dates.format(item.deadline, 'yyyy-MM-dd HH:mm')}"></td>
                 <td class="message"
                     data-th-text="*{item.alert != null}? *{#dates.format(item.alert, 'yyyy-MM-dd HH:mm')} : 'not set'"></td>
+
+                <!--Status-->
                 <td class="text-center">
-                    <a th:href="@{'/items/{id}/status'(id=${item.id})}" class="status">
+                    <a th:href="@{'/items/{id}/status'(id=${item.id})}" class="status" data-toggle="tooltip"
+                       data-placement="top" title="Change status">
                         <div th:switch="${item.state}">
                             <span th:case="true" class="glyphicon glyphicon-ok"></span>
                             <span th:case="false" class="glyphicon glyphicon-time"></span>
@@ -31,13 +37,15 @@
                 </td>
 
                 <td class="text-center">
-                    <a th:href="@{'/items/{id}/delete'(id=${item.id})}" class="delete">
+                    <a th:href="@{'/items/{id}/delete'(id=${item.id})}" class="delete" data-toggle="tooltip"
+                       data-placement="top" title="Delete the record">
                         <span class="glyphicon glyphicon-trash"></span>
                     </a>
                 </td>
 
                 <td class="text-center">
-                    <a th:href="@{'/items/{id}/edit'(id=${item.id})}" class="edit">
+                    <a th:href="@{'/items/{id}/edit'(id=${item.id})}" class="edit" data-toggle="tooltip"
+                       data-placement="top" title="Edit the record">
                         <span class="glyphicon glyphicon-edit"></span>
                     </a>
                 </td>
@@ -51,7 +59,8 @@
                 <!--New task button-->
                 <div class="col-xs-1 col-height col-top text-left">
                     <div class="inside">
-                        <div class="content"><a class="btn btn-primary btn-sm" href="/items/new"><span
+                        <div class="content"><a class="btn btn-primary btn-sm" href="/items/new" data-toggle="tooltip"
+                                                data-placement="top" title="Add a new TODO task"><span
                                 class="glyphicon glyphicon-plus"></span> NEW TASK</a></div>
                     </div>
                 </div>
@@ -81,13 +90,19 @@
                         <div class="container">
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle btn-sm" id="menu1" type="button"
-                                        data-toggle="dropdown">Pages <span class="badge" th:text="${size}"></span>
+                                        data-toggle="dropdown" title="Change page size">
+                                    Pages <span class="badge" th:text="${size}"></span>
                                     <span class="caret"></span></button>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/setPageSize=5">5</a></li>
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/setPageSize=10">10</a></li>
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/setPageSize=15">15</a></li>
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/setPageSize=20">20</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                               href="/setPageSize=5">5</a>
+                                    </li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                               href="/setPageSize=10">10</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                               href="/setPageSize=15">15</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                               href="/setPageSize=20">20</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -99,11 +114,17 @@
                     <div class="inside">
                         <div class="content" id="size">
                             <div class="btn-group">
-                                <a th:class="@{'btn btn-sm {state}'(state=${filter == 'all' ? 'btn-success' : 'btn-primary'})}" th:href="@{'/items/all?size={s}'(s=${size})}"><span
+                                <a th:class="@{'btn btn-sm {state}'(state=${filter == 'all' ? 'btn-success' : 'btn-primary'})}"
+                                   th:href="@{'/items/all?size={s}'(s=${size})}" data-toggle="tooltip"
+                                   data-placement="top" title="Show all TODO tasks"><span
                                         class="glyphicon glyphicon-asterisk"></span> ALL TASKS</a>
-                                <a th:class="@{'btn btn-sm {state}'(state=${filter == 'scheduled' ? 'btn-success' : 'btn-primary'})}" th:href="@{'/items/scheduled?size={s}'(s=${size})}"><span
+                                <a th:class="@{'btn btn-sm {state}'(state=${filter == 'scheduled' ? 'btn-success' : 'btn-primary'})}"
+                                   th:href="@{'/items/scheduled?size={s}'(s=${size})}" data-toggle="tooltip"
+                                   data-placement="top" title="Show only scheduled tasks"><span
                                         class="glyphicon glyphicon-time"></span> SCHEDULED</a>
-                                <a th:class="@{'btn btn-sm {state}'(state=${filter == 'done' ? 'btn-success' : 'btn-primary'})}" th:href="@{'/items/done?size={s}'(s=${size})}"><span
+                                <a th:class="@{'btn btn-sm {state}'(state=${filter == 'done' ? 'btn-success' : 'btn-primary'})}"
+                                   th:href="@{'/items/done?size={s}'(s=${size})}" data-toggle="tooltip"
+                                   data-placement="top" title="Show only done tasks"><span
                                         class="glyphicon glyphicon-ok"></span> DONE</a>
                             </div>
                         </div>
@@ -117,6 +138,10 @@
     <script>
         $(document).ready(function () {
             $(".dropdown-toggle").dropdown();
+        });
+
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
 
